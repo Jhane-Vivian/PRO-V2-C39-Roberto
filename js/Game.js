@@ -68,6 +68,7 @@ class Game {
     this.handleResetButton();
 
     Player.getPlayersInfo();
+    
 
     if (allPlayers !== undefined) {
       image(track, 0, -height * 5, width, height * 6);
@@ -104,7 +105,18 @@ class Game {
     }
   }
 
-  handleResetButton() {}
+  handleResetButton() {
+    this.resetButton.mousePressed( () => {
+      database.ref("/").set({
+        carsAtEnd:0,
+        playerCount: 0,
+        gameState: 0,
+        players:{}
+      });
+      window.location.reload();
+    }
+    );
+  }
 
   showLeaderboard() {
     var leader1, leader2;
@@ -154,5 +166,18 @@ class Game {
       player.positionY += 10;
       player.update();
     }
+
+    if(keyIsDown(LEFT_ARROW) && player.positionX > width/3 - 50)
+    {
+      player.positionX -= 5;
+      player.update();
+    }
+
+    if(keyIsDown(RIGTH_ARROW) && player.positionX < width/2 + 300)
+    {
+      player.positionX += 5;
+      player.update();
+    }
+    
   }
 }
